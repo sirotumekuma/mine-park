@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#11170f">
+  <meta name="description" content="マイクラ好きの仲間を見つけよう！初心者歓迎のマイクラ広場Discord。質問・情報交換・マルチ募集に、Java版も統合版も参加無料。">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="マイクラ広場｜マイクラ好きの仲間を見つけよう">
+  <meta property="og:description" content="質問も、情報交換も、一緒に遊ぶ仲間探しも。初心者歓迎のマイクラ広場Discordへ、無料で参加しよう！">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" type="image/png" sizes="128x128" href="assets/favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <title>マイクラ広場｜マイクラ好きの仲間を見つけよう</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #11170f;
+      --surface: #1a2118;
+      --surface-light: #222b1f;
+      --text: #f4f4e9;
+      --muted: #a6ad9d;
+      --green: #9bd34e;
+      --green-dark: #5e9434;
+      --purple: #7888ff;
+      --line: rgba(239, 245, 225, .11);
+      --font: "Segoe UI", "Noto Sans JP", "Yu Gothic UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--text);
+      background: var(--bg);
+      font-family: var(--font);
+      line-height: 1.7;
+    }
+    a { color: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    .wrap { width: min(1120px, calc(100% - 48px)); margin-inline: auto; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--green);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before { width: 20px; height: 2px; background: currentColor; content: ""; }
+    .section { padding: 104px 0; }
+    .section-heading { max-width: 650px; margin-bottom: 38px; }
+    .section-heading h2 { margin: 12px 0 10px; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.25; letter-spacing: -.04em; }
+    .section-heading p { margin: 0; color: var(--muted); }
+
+    .topbar {
+      position: absolute;
+      z-index: 2;
+      top: 0;
+      right: 0;
+      left: 0;
+      display: flex;
+      height: 78px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; font-weight: 900; }
+    .brand-mark {
+      display: block;
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(183, 229, 119, .35);
+      border-radius: 11px;
+      object-fit: cover;
+    }
+    .nav { display: flex; align-items: center; gap: 27px; }
+    .nav a { color: #d0d4c9; font-size: .88rem; text-decoration: none; }
+    .nav a:hover { color: var(--green); }
+    .nav .nav-join { padding: 9px 16px; border: 1px solid rgba(155, 211, 78, .48); border-radius: 9px; color: var(--green); font-weight: 800; }
+
+    .hero {
+      position: relative;
+      display: flex;
+      min-height: 680px;
+      align-items: center;
+      overflow: hidden;
+      padding: 128px 0 76px;
+      background:
+        radial-gradient(ellipse at 78% 42%, rgba(105, 150, 61, .2), transparent 35%),
+        linear-gradient(110deg, #11170f 8%, rgba(17, 23, 15, .96) 43%, rgba(17, 23, 15, .48) 100%),
+        repeating-linear-gradient(0deg, transparent 0 57px, rgba(213, 236, 187, .035) 58px 59px),
+        repeating-linear-gradient(90deg, transparent 0 57px, rgba(213, 236, 187, .035) 58px 59px);
+    }
+    .hero::after {
+      position: absolute;
+      right: -5%;
+      bottom: -104px;
+      left: -5%;
+      height: 190px;
+      background: linear-gradient(180deg, transparent, var(--bg));
+      content: "";
+      pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 1; width: min(610px, 60%); }
+    .hero h1 { margin: 22px 0 18px; font-size: clamp(2.8rem, 6.2vw, 5.4rem); font-weight: 950; letter-spacing: -.065em; line-height: 1.12; }
+    .hero h1 span { color: var(--green); }
+    .hero-copy { max-width: 490px; margin: 0 0 29px; color: #c3c8bb; font-size: 1.04rem; }
+    .hero-points { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 25px; padding: 0; list-style: none; }
+    .hero-points li { padding: 5px 10px; border: 1px solid rgba(201, 242, 145, .22); border-radius: 999px; background: rgba(155, 211, 78, .07); color: #d5e9c0; font-size: .77rem; font-weight: 750; }
+    .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 13px; }
+    .button {
+      display: inline-flex;
+      min-height: 52px;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 21px;
+      border: 1px solid transparent;
+      border-radius: 11px;
+      font-weight: 850;
+      text-decoration: none;
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+    }
+    .button:hover { transform: translateY(-2px); }
+    .button-primary { background: var(--green); color: #15200e; box-shadow: 0 9px 30px rgba(126, 183, 58, .2); }
+    .button-primary:hover { background: #b2e66d; }
+    .button-secondary { border-color: var(--line); background: rgba(255, 255, 255, .035); color: var(--text); }
+    .button-secondary:hover { border-color: rgba(255, 255, 255, .28); }
+    .button-arrow { font-size: 1.2rem; }
+    .hero-note { margin-top: 15px; color: #92998a; font-size: .78rem; }
+    .hero-social { color: #c7cec0; font-size: .88rem; font-weight: 750; text-decoration-color: rgba(199, 206, 192, .55); text-underline-offset: 4px; }
+    .hero-social:hover { color: var(--green); }
+    .hero-art { position: absolute; top: 50%; right: max(3%, calc((100vw - 1120px) / 2)); width: min(44vw, 490px); aspect-ratio: 1; transform: translateY(-44%); }
+    .art-glow { position: absolute; inset: 12%; border-radius: 50%; background: rgba(117, 171, 70, .16); filter: blur(48px); }
+    .block {
+      position: absolute;
+      width: 42%;
+      aspect-ratio: 1;
+      border: 1px solid rgba(220, 247, 187, .28);
+      border-radius: 21px;
+      box-shadow: inset 0 1px rgba(255,255,255,.17), 0 24px 55px rgba(0, 0, 0, .34);
+      transform: rotate(-12deg) skewY(4deg);
+    }
+    .block-one { top: 12%; left: 21%; background: linear-gradient(145deg, #8dc94e 0 23%, #568e3d 23% 50%, #385b31 50%); }
+    .block-two { top: 39%; left: 45%; width: 38%; background: linear-gradient(145deg, #9ca9ff 0 24%, #747feb 24% 54%, #444c9b 54%); transform: rotate(10deg) skewY(-4deg); }
+    .block-three { top: 48%; left: 9%; width: 31%; background: linear-gradient(145deg, #a67b4d 0 24%, #795638 24% 52%, #553a2c 52%); transform: rotate(-5deg) skewY(3deg); }
+    .pixel { position: absolute; width: 13px; height: 13px; background: #c9f291; box-shadow: 0 0 20px #a8e66f; }
+    .pixel-a { top: 25%; right: 10%; }
+    .pixel-b { right: 24%; bottom: 18%; width: 8px; height: 8px; background: #a9b4ff; box-shadow: 0 0 18px #919eff; }
+    .hero-tag {
+      position: absolute;
+      right: 0;
+      bottom: 18%;
+      padding: 9px 14px;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 10px;
+      background: rgba(24, 31, 22, .8);
+      color: #dce7d2;
+      font-size: .82rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .status-section { position: relative; z-index: 1; margin-top: -15px; }
+    .status-card {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 25px;
+      align-items: center;
+      padding: 27px 31px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: linear-gradient(120deg, #20291c, #1a2118);
+    }
+    .status-title { display: flex; align-items: center; gap: 13px; }
+    .status-icon { display: grid; width: 45px; height: 45px; place-items: center; border-radius: 13px; background: rgba(155, 211, 78, .13); color: var(--green); font-size: 1.25rem; }
+    .status-title h2 { margin: 0; font-size: 1.04rem; }
+    .status-title p { margin: 2px 0 0; color: var(--muted); font-size: .82rem; }
+    .status-content { display: flex; align-items: center; justify-content: flex-end; gap: 22px; }
+    .status-message { color: var(--muted); font-size: .87rem; }
+    .status-count { color: var(--green); font-weight: 850; }
+    .widget-frame { display: none; width: 100%; height: 245px; margin-top: 18px; overflow: hidden; border: 1px solid var(--line); border-radius: 13px; background: #171d16; }
+    .widget-frame iframe { width: 100%; height: 100%; border: 0; }
+
+    .features { background: linear-gradient(180deg, var(--bg), #151c13 50%, var(--bg)); }
+    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 17px; }
+    .feature-card { min-height: 230px; padding: 26px; border: 1px solid var(--line); border-radius: 15px; background: rgba(255,255,255,.025); }
+    .feature-card:hover { border-color: rgba(155, 211, 78, .32); background: rgba(255,255,255,.04); }
+    .feature-icon { display: grid; width: 44px; height: 44px; place-items: center; border-radius: 12px; background: rgba(155, 211, 78, .12); color: var(--green); font-size: 1.2rem; }
+    .feature-card:nth-child(2) .feature-icon { background: rgba(120,136,255,.14); color: #aab3ff; }
+    .feature-card:nth-child(3) .feature-icon { background: rgba(205,151,88,.14); color: #e0b27d; }
+    .feature-card h3 { margin: 19px 0 8px; font-size: 1.1rem; }
+    .feature-card p { margin: 0; color: var(--muted); font-size: .9rem; }
+    .promo-band { display: flex; align-items: center; justify-content: space-between; gap: 22px; margin-top: 23px; padding: 22px 25px; border: 1px solid rgba(155, 211, 78, .25); border-radius: 14px; background: linear-gradient(110deg, rgba(155,211,78,.1), rgba(120,136,255,.07)); }
+    .promo-band h3 { margin: 0; font-size: 1.08rem; }
+    .promo-band p { margin: 3px 0 0; color: var(--muted); font-size: .87rem; }
+
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; counter-reset: step; }
+    .step { position: relative; padding: 24px 24px 27px; border-top: 1px solid rgba(155, 211, 78, .45); background: linear-gradient(180deg, rgba(155,211,78,.055), transparent 75%); counter-increment: step; }
+    .step::before { color: var(--green); content: "STEP 0" counter(step); font-size: .76rem; font-weight: 900; letter-spacing: .1em; }
+    .step h3 { margin: 17px 0 7px; font-size: 1.1rem; }
+    .step p { margin: 0; color: var(--muted); font-size: .9rem; }
+    .step:not(:last-child)::after { position: absolute; top: 23px; right: 12px; color: #65705d; content: "→"; font-size: 1.2rem; }
+
+    .rules { padding-top: 70px; }
+    .rules-box { display: grid; grid-template-columns: .8fr 1.2fr; gap: 45px; padding: 37px; border: 1px solid var(--line); border-radius: 17px; background: var(--surface); }
+    .rules-intro h2 { margin: 13px 0 10px; font-size: 1.8rem; line-height: 1.3; }
+    .rules-intro p { margin: 0; color: var(--muted); font-size: .9rem; }
+    .rule-list { display: grid; gap: 9px; }
+    details { overflow: hidden; border: 1px solid var(--line); border-radius: 10px; background: rgba(255,255,255,.02); }
+    summary { position: relative; padding: 13px 42px 13px 16px; cursor: pointer; font-weight: 750; list-style: none; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { position: absolute; top: 50%; right: 15px; color: var(--green); content: "+"; font-size: 1.25rem; transform: translateY(-50%); }
+    details[open] summary::after { content: "−"; }
+    details p { margin: 0; padding: 0 16px 15px; color: var(--muted); font-size: .88rem; }
+
+    .join-cta { padding: 45px 0 80px; }
+    .join-card { position: relative; overflow: hidden; padding: 45px 35px; border: 1px solid rgba(155,211,78,.26); border-radius: 19px; background: radial-gradient(ellipse at 95% 100%, rgba(115,157,63,.2), transparent 40%), linear-gradient(120deg, #202b1d, #1a2118); text-align: center; }
+    .join-card h2 { margin: 9px 0 9px; font-size: clamp(1.7rem, 4vw, 2.5rem); letter-spacing: -.035em; }
+    .join-card p { margin: 0 auto 22px; color: var(--muted); }
+    .join-card .button { position: relative; z-index: 1; }
+
+    footer { padding: 27px 0 32px; border-top: 1px solid var(--line); color: #91998a; font-size: .79rem; }
+    .footer-top { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 16px; }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { color: #c4cabc; text-decoration: none; }
+    .footer-links a:hover { color: var(--green); }
+    .disclaimer { margin: 0; }
+
+    a:focus-visible, summary:focus-visible { outline: 3px solid #b8ec72; outline-offset: 4px; }
+    @media (max-width: 760px) {
+      .wrap { width: min(100% - 36px, 560px); }
+      .topbar { height: 68px; }
+      .nav { gap: 0; }
+      .nav a:not(.nav-join) { display: none; }
+      .nav .nav-join { padding: 7px 12px; font-size: .82rem; }
+      .hero { min-height: 715px; align-items: flex-start; padding-top: 132px; }
+      .hero-content { width: 100%; }
+      .hero h1 { max-width: 560px; font-size: clamp(2.2rem, 10vw, 3.6rem); }
+      .hero-copy { max-width: 450px; font-size: .96rem; }
+      .hero-points { gap: 6px; margin-bottom: 19px; }
+      .hero-points li { font-size: .72rem; }
+      .hero-art { position: relative; top: auto; right: auto; bottom: auto; width: min(55vw, 260px); margin: 0 auto -35px; transform: none; opacity: .85; }
+      .hero-tag { right: -4%; bottom: 15%; font-size: .72rem; }
+      .section { padding: 75px 0; }
+      .status-section { margin-top: -4px; }
+      .status-card { grid-template-columns: 1fr; gap: 18px; padding: 21px; }
+      .status-content { justify-content: space-between; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .feature-card { min-height: auto; }
+      .promo-band { align-items: flex-start; flex-direction: column; padding: 20px; }
+      .steps { grid-template-columns: 1fr; gap: 9px; }
+      .step { padding: 19px; }
+      .step:not(:last-child)::after { top: auto; right: 18px; bottom: -15px; z-index: 1; content: "↓"; }
+      .rules { padding-top: 25px; }
+      .rules-box { grid-template-columns: 1fr; gap: 24px; padding: 23px; }
+      .join-cta { padding: 20px 0 58px; }
+      .join-card { padding: 35px 20px; }
+      .footer-top { align-items: flex-start; flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar wrap">
+    <a class="brand" href="#" aria-label="マイクラ広場 ホーム">
+      <img class="brand-mark" src="assets/community-icon.jpg" alt="" aria-hidden="true" width="40" height="40">
+      <span>マイクラ広場</span>
+    </a>
+    <nav class="nav" aria-label="メインナビゲーション">
+      <a href="#about">広場について</a>
+      <a href="#guide">参加ガイド</a>
+      <a href="#rules">ルール</a>
+      <a class="nav-join discord-link" href="#join">Discordに参加 <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <div class="hero-content">
+          <span class="eyebrow">A community for Minecraft players</span>
+          <h1>マイクラ仲間を、<br>ここで<span>見つけよう。</span></h1>
+          <p class="hero-copy">質問も、情報交換も、一緒に遊ぶ仲間探しも。マイクラの話ができる場所をお探しなら、マイクラ広場Discordへ！</p>
+          <ul class="hero-points" aria-label="コミュニティの特徴">
+            <li>参加無料</li>
+            <li>Java版・統合版どちらも歓迎</li>
+            <li>初心者歓迎</li>
+          </ul>
+          <div class="actions">
+            <a class="button button-primary discord-link" href="#join">
+              無料でDiscordに参加する
+              <span class="button-arrow" aria-hidden="true">↗</span>
+            </a>
+            <a class="button button-secondary" href="#guide">参加方法を見る <span aria-hidden="true">↓</span></a>
+          </div>
+          <p class="hero-note">参加後はルールを確認して、自己紹介から始めよう。</p>
+          <a class="hero-social youtube-link" href="#join" target="_blank" rel="noopener noreferrer">YouTube公式チャンネルもチェック <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="art-glow"></div>
+          <div class="block block-one"></div>
+          <div class="block block-two"></div>
+          <div class="block block-three"></div>
+          <i class="pixel pixel-a"></i><i class="pixel pixel-b"></i>
+          <div class="hero-tag">⛏ ここから、仲間が見つかる。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="status-section wrap" aria-labelledby="status-heading">
+      <div class="status-card">
+        <div class="status-title">
+          <span class="status-icon" aria-hidden="true">◉</span>
+          <div>
+            <h2 id="status-heading">Discordコミュニティ</h2>
+            <p>サーバーの最新ステータス</p>
+          </div>
+        </div>
+        <div class="status-content">
+          <span class="status-message" id="status-message">サーバー情報を準備中です</span>
+          <a class="button button-secondary discord-link" href="#join">サーバーを見る ↗</a>
+        </div>
+      </div>
+      <div class="widget-frame" id="widget-frame" aria-label="Discordサーバーウィジェット">
+        <iframe id="discord-widget" title="マイクラ広場 Discordサーバー" loading="lazy" allowtransparency="true"></iframe>
+      </div>
+    </section>
+
+    <section class="section features" id="about">
+      <div class="wrap">
+        <div class="section-heading">
+          <span class="eyebrow">Why join us</span>
+          <h2>遊び方は、ひとつじゃない。</h2>
+          <p>話すだけでも、仲間を探すのも。あなたのペースで楽しめる場所を目指しています。</p>
+        </div>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <span class="feature-icon" aria-hidden="true">✎</span>
+            <h3>はじめてでも安心</h3>
+            <p>バージョンやJava版・統合版、やりたいことを書いて質問。マイクラを始めたばかりの方も気軽に相談できます。</p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-icon" aria-hidden="true">⌘</span>
+            <h3>一緒に遊ぶ仲間探し</h3>
+            <p>「一緒に遊ぶ人がほしい」をコミュニティで募集。Java版・統合版の情報交換にも活用できます。</p>
+          </article>
+          <article class="feature-card">
+            <span class="feature-icon" aria-hidden="true">✧</span>
+            <h3>企画やイベント</h3>
+            <p>建築やゲーム企画など、みんなで楽しむきっかけをお知らせ。企画やイベントの案内をDiscordでチェック！</p>
+          </article>
+        </div>
+        <div class="promo-band">
+          <div>
+            <h3>見るだけでも大丈夫。まずは気軽にのぞいてみよう。</h3>
+            <p>参加は無料。ルールを確認したら、質問や自己紹介から始められます。</p>
+          </div>
+          <a class="button button-primary discord-link" href="#join">広場に参加する ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="guide">
+      <div class="wrap">
+        <div class="section-heading">
+          <span class="eyebrow">Getting started</span>
+          <h2>参加したら、まずはこの3ステップ。</h2>
+          <p>最初に見る場所がわかれば大丈夫。自分のペースでコミュニティに慣れていこう。</p>
+        </div>
+        <div class="steps">
+          <article class="step">
+            <h3>Discordに参加</h3>
+            <p>下のボタンからサーバーへ。Discordアカウントがない方は、画面の案内に沿って登録してください。</p>
+          </article>
+          <article class="step">
+            <h3>ルールを確認して自己紹介</h3>
+            <p>サーバー内の「ルール」を読んでから、自己紹介チャンネルで挨拶。プレイ環境も書くと仲間が見つかりやすくなります。</p>
+          </article>
+          <article class="step">
+            <h3>好きなチャンネルへ！</h3>
+            <p>会話に参加したり、一緒に遊ぶ相手を探したり。気になるチャンネルからのぞいてみよう。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section rules" id="rules">
+      <div class="wrap">
+        <div class="rules-box">
+          <div class="rules-intro">
+            <span class="eyebrow">Community guide</span>
+            <h2>みんなが楽しめる<br>広場にしよう。</h2>
+            <p>当サーバーに参加いただきありがとうございます！皆さんが快適に質問・交流できるよう、以下のルールを守ってご利用ください。</p>
+          </div>
+          <div class="rule-list">
+            <details>
+              <summary>1. 敬意をもったコミュニケーション</summary>
+              <p>誰でも最初は初心者です。相手を傷つけるような言動、煽り、見下すような発言は禁止です。親切で丁寧な言葉遣いを心がけましょう。</p>
+            </details>
+            <details>
+              <summary>2. 質問・投稿のマナー</summary>
+              <p>質問をする際は「Minecraftのバージョン」「版（Java版／統合版）」「やりたいこと・現在のコード」を明確に記載してください。回答してもらった際は、お礼を忘れずに伝えましょう。</p>
+            </details>
+            <details>
+              <summary>3. 禁止事項</summary>
+              <p>スパム行為、連投、許可されたチャンネル以外での宣伝目的の利用は禁止です。改造クラッシュ系コマンドや、サーバー・端末に負荷をかける目的のコードを掲載しないでください。他人の作成したコード・データパックの無断転載・再配布、およびDiscord利用規約やMinecraft利用規約（EULA）に反する行為も禁止です。</p>
+            </details>
+            <details>
+              <summary>違反報告・ルールの変更について</summary>
+              <p>ルール違反を見かけた場合は、運営メンバーへTicketでご報告ください。ルールは予告なく変更される場合があります。</p>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="join-cta" id="join">
+      <div class="wrap">
+        <div class="join-card">
+          <span class="eyebrow">Your next adventure starts here</span>
+          <h2>次は、あなたも一緒に遊ぼう。</h2>
+          <p>参加は無料。Java版も統合版も、マイクラが好きなあなたを歓迎します。</p>
+          <a class="button button-primary discord-link" href="#join">今すぐDiscordに参加する <span class="button-arrow" aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-top">
+        <a class="brand" href="#" aria-label="マイクラ広場 ホーム">
+          <img class="brand-mark" src="assets/community-icon.jpg" alt="" aria-hidden="true" width="40" height="40"><span>マイクラ広場</span>
+        </a>
+        <div class="footer-links">
+          <a class="discord-link" href="#join">Discord</a>
+          <a id="social-link" href="#join" target="_blank" rel="noopener noreferrer">YouTube</a>
+          <a href="terms.html">利用規約</a>
+        </div>
+      </div>
+      <p class="disclaimer">※当サーバーはMojang StudiosおよびMicrosoftとは無関係の有志コミュニティです。</p>
+    </div>
+  </footer>
+
+  <script>
+    // Replace these values with the community's permanent Discord invite and server ID.
+    const COMMUNITY = {
+      inviteUrl: "https://discord.gg/hYTvRPwF4",
+      serverId: "",
+      socialUrl: "https://www.youtube.com/@マイクラ広場discord公式"
+    };
+
+    const inviteUrlIsValid = /^https:\/\/(discord\.gg\/|discord\.com\/invite\/)[\w-]+\/?$/.test(COMMUNITY.inviteUrl);
+    const discordLinks = document.querySelectorAll(".discord-link");
+    const statusMessage = document.getElementById("status-message");
+
+    if (inviteUrlIsValid) {
+      discordLinks.forEach((link) => {
+        link.href = COMMUNITY.inviteUrl;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+      });
+      statusMessage.textContent = "参加して、コミュニティの最新情報をチェック";
+    } else {
+      statusMessage.textContent = "招待リンクは現在準備中です";
+      discordLinks.forEach((link) => {
+        link.addEventListener("click", (event) => {
+          event.preventDefault();
+          statusMessage.textContent = "サーバー管理者に招待リンクをご確認ください";
+        });
+      });
+    }
+
+    if (/^\d{17,20}$/.test(COMMUNITY.serverId)) {
+      const widgetFrame = document.getElementById("widget-frame");
+      document.getElementById("discord-widget").src =
+        `https://discord.com/widget?id=${encodeURIComponent(COMMUNITY.serverId)}&theme=dark`;
+      widgetFrame.style.display = "block";
+    }
+
+    const socialLink = document.getElementById("social-link");
+    const youtubeLinks = document.querySelectorAll(".youtube-link");
+    const socialUrl = new URL(COMMUNITY.socialUrl);
+    if (socialUrl.protocol === "https:" &&
+        socialUrl.hostname === "www.youtube.com" &&
+        socialUrl.pathname.startsWith("/@")) {
+      socialLink.href = socialUrl.href;
+      youtubeLinks.forEach((link) => {
+        link.href = socialUrl.href;
+      });
+    } else {
+      socialLink.hidden = true;
+      youtubeLinks.forEach((link) => {
+        link.hidden = true;
+      });
+    }
+  </script>
+</body>
+</html>
